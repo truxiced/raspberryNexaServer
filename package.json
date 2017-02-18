@@ -1,0 +1,23 @@
+{
+  "name": "raspberrynexaserver",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/truxiced/raspberryNexaServer.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/truxiced/raspberryNexaServer/issues"
+  },
+  "homepage": "https://github.com/truxiced/raspberryNexaServer#readme",
+  "dependencies": {
+    "express": "^4.14.1"
+  }
+}
