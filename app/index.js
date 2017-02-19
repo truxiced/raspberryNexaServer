@@ -1,7 +1,13 @@
+const deviceRouter = require('./devices/index');
 const express = require('express');
 const app = express();
 const port = 3000;
-const exec = require('exec');
+const db = require('./db');
+
+
+//Routing to sub URLs
+app.use('/devices', deviceRouter);
+
 
 app.listen(port, (err) => {  
   if (err) {
@@ -11,28 +17,35 @@ app.listen(port, (err) => {
   console.log(`server is listening on ${port}`)
 })
 
-app.get('/off', (req, res) => {  
+app.get('/save/:id', (req, res) => {
+    //TODO do check to verify that pair worked.
+    db.put(req.params.id, 'new save'); 
+    //deviceLogic.pair(req.body.name);
+})
+
+app.get('/get/:id', (req, res) => {
+    //TODO do check to verify that pair worked.
+
+    db.get(req.params.id, function(err, value) {  
+      if (err) {
+        res.send(err);
+      }
+      res.send(value);
+    });
+})
+
+/*app.get('/getAll', (req, res) => {
     
-    res.send("It's dead!");
-exec('sudo ~/pihat/pihat --repeats=50 --id=1 --channel=0 --state=0',
-  function (error, stdout, stderr) {
-    console.log('stdout: ' + stdout);
-    console.log('stderr: ' + stderr);
-    if (error !== null) {
-      console.log('exec error: ' + error);
-    }
-});   
-})
+    var stream = db.createReadStream();  
 
-app.get('/on', (req, res) => {
+    var devices = [];
+    stream.on('data', function(data) {
+      devices.push(data); 
+    });
 
-    res.send("It's alive!");
-exec('sudo ~/pihat/pihat --repeats=50 --id=1 --channel=0 --state=1',
-  function (error, stdout, stderr) {
-    console.log('stdout: ' + stdout);
-    console.log('stderr: ' + stderr);
-    if (error !== null) {
-      console.log('exec error: ' + error);
-    }
-});
-})
+    stream.once('end', function() {  
+      console.log('stream end');
+      res.send(devices);
+    }); 
+})*/
+
