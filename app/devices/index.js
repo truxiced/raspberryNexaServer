@@ -3,6 +3,8 @@ const express = require('express')
 const router = express.Router()
 const deviceLogic = require('./deviceLogic');
 
+var bodyParser = require('body-parser');
+router.use(bodyParser.urlencoded({extended: false}));
 
 /**
  * 
@@ -28,9 +30,10 @@ router.get('/', (req, res) => {
  */
 router.post('/pair', (req, res) => {
     //TODO do check to verify that pair worked.
-
+console.log(req.body);
+console.log(req.body.name);
     deviceLogic.pair(req.body.name).then(function(id){
-        res.send(id);
+        res.send({id:id});
     });
 })
 
@@ -43,7 +46,7 @@ router.get('/:id/off', (req, res) => {
   
   deviceLogic.turnOffDevice(req.params.id);
 
-  res.send("device " + id + " is turned off");
+  res.send("device " + req.params.id + " is turned off");
 })
 
 /**
@@ -55,7 +58,7 @@ router.get('/:id/on', (req, res) => {
 
   deviceLogic.turnOnDevice(req.params.id);
 
-  res.send("device " + id + " is turned on");
+  res.send("device " + req.params.id + " is turned on");
 })
 
 module.exports = router

@@ -3,11 +3,11 @@ const express = require('express');
 const app = express();
 const port = 3000;
 const db = require('./db');
-
+var bodyParser = require('body-parser');
 
 //Routing to sub URLs
 app.use('/devices', deviceRouter);
-
+app.use(bodyParser.urlencoded({extended: false}));
 
 app.listen(port, (err) => {  
   if (err) {

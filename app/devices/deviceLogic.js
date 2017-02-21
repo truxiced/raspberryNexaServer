@@ -11,14 +11,17 @@ function pair(name) {
 
     return new Promise(function(fulfill){
         //Generate a id that does not conflict in the storage.
-        var id = getRandomInt();
+    
+	return new Promise(function(fulfillId){getRandomInt(fulfillId);})
+	.then(function(id){
 
-        deviceScript(id, 0, 0);
-        //Verify that pair worked. 
+ 	   deviceScript(id, 0, 1);
+           //Verify that pair worked.
 
-        db.insert({ id: id, name: name }, function (err, newDocs) {});
-        //Save name and id in storage. 
-        fulfill(id);
+           db.insert({ id: id, name: name }, function (err, newDocs) {});
+           //Save name and id in storage.
+           fulfill(id);
+	})	
     })
 }
 /**
@@ -29,7 +32,7 @@ function pair(name) {
 function getAllDevices() {
     return new Promise(function(fulfill){
 
-        db.find({}, function (err, docs) {
+        db.find({}, function (err, devices) {
             fulfill(devices);
         });
 
@@ -66,19 +69,23 @@ function deviceScript(id, channel, state) {
  * Returns a random integer between min (inclusive) and max (inclusive)
  * Using Math.round() will give you a non-uniform distribution!
  */
-function getRandomInt() {
+function getRandomInt(fulfill) {
     var min = 0;
     var max = 60000;
     var id =  Math.floor(Math.random() * (max - min + 1)) + min;
 
-    db.find({id:id}, function(err, docs) {  
-      if (docs.length === 0) {
-        return id;
-      }
-      getRandomInt();
-    });
+    db.find({id:id}, function(err, devices) {  
+
+      if (devices.length === 0) {
+	console.log("fulfilling");
+        fulfill(id);
+      } else {
+      return getRandomInt(fulfill);
+}   
+ });
 }
 
 module.exports.turnOffDevice = turnOffDevice; 
 module.exports.turnOnDevice = turnOnDevice;
 module.exports.getAllDevices = getAllDevices;
+module.exports.pair = pair;
