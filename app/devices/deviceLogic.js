@@ -12,16 +12,16 @@ function pair(name) {
     return new Promise(function(fulfill){
         //Generate a id that does not conflict in the storage.
     
-	return new Promise(function(fulfillId){getRandomInt(fulfillId);})
-	.then(function(id){
+        return new Promise(function(fulfillId){getRandomInt(fulfillId);})
+        .then(function(id){
 
- 	   deviceScript(id, 0, 1);
-           //Verify that pair worked.
+            deviceScript(id, 0, 1);
+            //Verify that pair worked.
 
-           db.insert({ id: id, name: name }, function (err, newDocs) {});
-           //Save name and id in storage.
-           fulfill(id);
-	})	
+            db.insert({ id: id, name: name }, function (err, newDocs) {});
+            //Save name and id in storage.
+            fulfill(id);
+        })	
     })
 }
 /**
@@ -75,14 +75,12 @@ function getRandomInt(fulfill) {
     var id =  Math.floor(Math.random() * (max - min + 1)) + min;
 
     db.find({id:id}, function(err, devices) {  
-
-      if (devices.length === 0) {
-	console.log("fulfilling");
-        fulfill(id);
-      } else {
-      return getRandomInt(fulfill);
-}   
- });
+        if (devices.length === 0) {
+            fulfill(id);
+        } else {
+            return getRandomInt(fulfill);
+        }   
+    });
 }
 
 module.exports.turnOffDevice = turnOffDevice; 

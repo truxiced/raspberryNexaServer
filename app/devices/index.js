@@ -29,9 +29,6 @@ router.get('/', (req, res) => {
  * }
  */
 router.post('/pair', (req, res) => {
-    //TODO do check to verify that pair worked.
-console.log(req.body);
-console.log(req.body.name);
     deviceLogic.pair(req.body.name).then(function(id){
         res.send({id:id});
     });

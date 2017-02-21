@@ -30,3 +30,9 @@ app.get('/get/:id', (req, res) => {
     });
 })
 
+app.delete('/remove/:id', (req, res) => {
+
+    db.remove({id: req.params.id}, function (err, numRemoved) {
+      res.send({id: req.params.id, removed: numRemoved});
+    });
+})
