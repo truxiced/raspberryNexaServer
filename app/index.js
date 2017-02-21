@@ -18,34 +18,15 @@ app.listen(port, (err) => {
 })
 
 app.get('/save/:id', (req, res) => {
-    //TODO do check to verify that pair worked.
-    db.put(req.params.id, 'new save'); 
-    //deviceLogic.pair(req.body.name);
+
+    db.insert({ id: req.params.id, name: "test save" }, function (err, newDocs) {});
+
 })
 
 app.get('/get/:id', (req, res) => {
-    //TODO do check to verify that pair worked.
 
-    db.get(req.params.id, function(err, value) {  
-      if (err) {
-        res.send(err);
-      }
-      res.send(value);
+    db.find({id: req.params.id}, function (err, docs) {
+      res.send(docs);
     });
 })
-
-/*app.get('/getAll', (req, res) => {
-    
-    var stream = db.createReadStream();  
-
-    var devices = [];
-    stream.on('data', function(data) {
-      devices.push(data); 
-    });
-
-    stream.once('end', function() {  
-      console.log('stream end');
-      res.send(devices);
-    }); 
-})*/
 

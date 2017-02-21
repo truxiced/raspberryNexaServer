@@ -18,8 +18,9 @@
   },
   "homepage": "https://github.com/truxiced/raspberryNexaServer#readme",
   "dependencies": {
+    "exec": "^0.2.1",
     "express": "^4.14.1",
-    "level": "^1.6.0",
+    "nedb": "^1.8.0",
     "promise": "^7.1.1"
   }
 }

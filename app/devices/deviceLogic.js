@@ -16,7 +16,7 @@ function pair(name) {
         deviceScript(id, 0, 0);
         //Verify that pair worked. 
 
-        db.put(id, name);
+        db.insert({ id: id, name: name }, function (err, newDocs) {});
         //Save name and id in storage. 
         fulfill(id);
     })
@@ -28,17 +28,11 @@ function pair(name) {
  */
 function getAllDevices() {
     return new Promise(function(fulfill){
-        var stream = db.createReadStream();  
 
-        var devices = [];
-
-        stream.on('data', function(data) {
-            devices.push(data); 
+        db.find({}, function (err, docs) {
+            fulfill(devices);
         });
 
-        stream.once('end', function() {  
-            fulfill(devices);
-        }); 
     })
 }
 /**
@@ -77,8 +71,8 @@ function getRandomInt() {
     var max = 60000;
     var id =  Math.floor(Math.random() * (max - min + 1)) + min;
 
-    db.get(req.params.id, function(err, value) {  
-      if (err) {
+    db.find({id:id}, function(err, docs) {  
+      if (docs.length === 0) {
         return id;
       }
       getRandomInt();
