@@ -7,7 +7,7 @@ var bodyParser = require('body-parser');
 
 //Routing to sub URLs
 app.use('/devices', deviceRouter);
-app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.urlencoded({extended: true}));
 
 app.listen(port, (err) => {  
   if (err) {
@@ -32,7 +32,15 @@ app.get('/get/:id', (req, res) => {
 
 app.delete('/remove/:id', (req, res) => {
 
-    db.remove({id: req.params.id}, function (err, numRemoved) {
+    db.remove({id: parseInt(req.params.id)}, function (err, numRemoved) {
       res.send({id: req.params.id, removed: numRemoved});
     });
+})
+
+app.post('/post', (req, res) => {
+
+
+    console.log(req.body);
+
+    res.send(req.body);
 })

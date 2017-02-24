@@ -24,6 +24,18 @@ function pair(name) {
         })	
     })
 }
+
+function test(id) {
+    return new Promise(function(fulfill){
+        turnOnDevice(id);
+
+        setTimeout(function(){
+            turnOffDevice(id); 
+            fulfill("done"); 
+        }, 5000);
+
+    })
+}
 /**
  * Gets all devices in the data base. 
  * 
@@ -87,3 +99,4 @@ module.exports.turnOffDevice = turnOffDevice;
 module.exports.turnOnDevice = turnOnDevice;
 module.exports.getAllDevices = getAllDevices;
 module.exports.pair = pair;
+module.exports.test = test;

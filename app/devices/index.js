@@ -30,9 +30,19 @@ router.get('/', (req, res) => {
  */
 router.post('/pair', (req, res) => {
     deviceLogic.pair(req.body.name).then(function(id){
-        res.send({id:id});
+        
+        deviceLogic.test(id).then(function(){
+            res.send({id:id});
+        })
+        
     });
-})
+});
+
+router.get('/:id/test', (req, res) => {
+    deviceLogic.test(req.params.id).then(function(){
+        res.sendStatus(204);
+    })
+});
 
 /**
  * Turns the devices with the given id off
@@ -44,7 +54,7 @@ router.get('/:id/off', (req, res) => {
   deviceLogic.turnOffDevice(req.params.id);
 
   res.send("device " + req.params.id + " is turned off");
-})
+});
 
 /**
  * Turns the devices with the given id on
@@ -56,6 +66,6 @@ router.get('/:id/on', (req, res) => {
   deviceLogic.turnOnDevice(req.params.id);
 
   res.send("device " + req.params.id + " is turned on");
-})
+});
 
 module.exports = router
